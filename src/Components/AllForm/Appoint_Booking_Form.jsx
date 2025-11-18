@@ -61,7 +61,7 @@ const Appoint_Booking_Form = ({ data }) => {
         <div className="my-10">
             <div className="w-11/12 mx-auto">
                 <h2 className="text-center text-3xl mb-4">
-                    Appointment Book : {data?.title} Name
+                    Appointment : {data?.title} Name
                 </h2>
                 
                 <form onSubmit={handleBookService}>

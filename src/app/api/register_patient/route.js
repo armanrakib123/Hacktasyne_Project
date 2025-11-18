@@ -21,7 +21,7 @@ export async function POST(req) {
             return new Response(JSON.stringify(toast.error("Invalid email format")), {
                 status: 400,
             });
-            
+
         }
 
         const user = await userCollection.findOne({ email });
@@ -32,9 +32,15 @@ export async function POST(req) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const result = await userCollection.insertOne({
-            ...payload,
+        const doc = {
+            name,
+            email,
             password: hashedPassword,
+            role: "patient",
+            createdAt: new Date()
+        };
+        const result = await userCollection.insertOne({
+            ...payload, doc
         });
 
         await sendWelcomeEmail(email, name);

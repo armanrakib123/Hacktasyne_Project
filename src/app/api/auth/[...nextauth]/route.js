@@ -118,6 +118,24 @@
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
@@ -228,6 +246,7 @@ export const authOptions = {
               email,
               name,
               image,
+              role: targetRole,
               createdAt: new Date(),
             };
             await userCollection.insertOne(payload);
@@ -256,3 +275,6 @@ export const authOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
+
+
+

@@ -1,13 +1,12 @@
 
 import dbconnect, { collectionNameObj } from "@/lib/dbconnect";
-import { sendWelcomeEmail } from "@/lib/sendEmail";
 import bcrypt from "bcrypt";
 import toast from "react-hot-toast";
 
 export async function POST(req) {
     try {
         const payload = await req.json();
-        const userCollection = dbconnect(collectionNameObj.VD_Doctor_Auth);
+        const userCollection = dbconnect(collectionNameObj.userCollection);
 
         const { email, password, name } = payload;
         if (!email || !password || !name) {
@@ -21,7 +20,7 @@ export async function POST(req) {
             return new Response(JSON.stringify(toast.error("Invalid email format")), {
                 status: 400,
             });
-
+            
         }
 
         const user = await userCollection.findOne({ email });
@@ -32,18 +31,10 @@ export async function POST(req) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10);
-        const doc = {
-            name,
-            email,
-            password: hashedPassword,
-            role: "patient",
-            createdAt: new Date()
-        };
         const result = await userCollection.insertOne({
-            ...payload, doc
+            ...payload,
+            password: hashedPassword,
         });
-
-        await sendWelcomeEmail(email, name);
 
         return new Response(JSON.stringify({ success: true, id: result.insertedId.toString() }), {
             status: 201,

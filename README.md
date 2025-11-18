@@ -1,90 +1,36 @@
-# 🌐 Virtual Doctor – Modern Telemedicine Platform
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
-Welcome to **Virtual Doctor**, an advanced telemedicine web application designed to connect patients and doctors seamlessly through secure and smart digital healthcare solutions. 🚀💙
+## Getting Started
 
----
-
-## ✨ Features Overview
-
-### 🔐 1. Authentication & User Settings
-- Login / Register screen with secure authentication  
-- Google / Email login supported  
-- Dark / Light Theme toggle 🎨  
-- Multi-Language support 🌍  
-- Edit Profile for both patients & doctors  
-
----
-
-### 🔔 2. Notifications & Email System
-- Real-time app notifications for appointments & messages  
-- Email verification & password reset  
-- Transactional emails for updates & reminders ✉️  
-
----
-
-### 🗓️ 3. Patient Appointments
-- Schedule appointments with available doctors  
-- View upcoming, past, and cancelled appointments  
-- Automated reminders & status tracking  
-- Doctor availability calendar 🗓️  
-
----
-
-### 🎥 4. Video Consultation
-- Secure video call between patient & doctor  
-- Real-time communication powered by WebRTC  
-- Share screen, send files, view records during call  
-- High-quality audio/video 👨‍⚕️📞🧑‍⚕️  
-
----
-
-### 💬 5. Live Chat
-- Instant text-based communication 💬  
-- Send attachments, images, and reports  
-- Typing indicator & message status  
-- Chat history stored securely 🔒  
-
----
-
-### 📄 6. Prescriptions & Medical Reports
-- Patients can download/view doctor-generated prescriptions  
-- Upload & manage personal medical reports  
-- Doctors can add diagnosis, instructions, and medications  
-- Supports PDF, images, and structured data 📝  
-
----
-
-## 🏗️ Tech Stack
-
-### **Frontend**
-- ⚛️ Next.js  
-- 🎨 Tailwind CSS / DaisyUI  
-- 🔐 NextAuth for authentication  
-
-### **Backend**
-- 🟦 Node.js  
-- 🌐 API Routes (Next.js Server Actions)  
-- 🗄️ MongoDB / Mongoose  
-
-### **Other Integrations**
-- 🎥 WebRTC (Video Call)  
-- ☁️ Cloud storage for reports  
-- ✉️ Email service (Nodemailer / Resend)  
-
----
-
-## 🚀 Installation Guide
+First, run the development server:
 
 ```bash
-# Clone the project
-git clone https://github.com/your-repo/virtual-doctor.git
-cd virtual-doctor
-
-# Install dependencies
-npm install
-
-# Add environment variables
-cp .env.example .env.local
-
-# Run the development server
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

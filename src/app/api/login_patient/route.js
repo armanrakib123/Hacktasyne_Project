@@ -3,7 +3,7 @@ import dbconnect, { collectionNameObj } from "@/lib/dbconnect";
 import bcrypt from "bcrypt"
 
 
-export const loginUser = async (payload) => {
+export const loginUser_Patient = async (payload) => {
   const { email, password } = payload;
   const userCollection = dbconnect(collectionNameObj.VD_Patient_Auth);
   const user = await userCollection.findOne({ email });

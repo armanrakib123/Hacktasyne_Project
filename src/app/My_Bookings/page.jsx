@@ -14,11 +14,20 @@ export default async function My_Booking_Page() {
 
   return (
     <div className='mt-28'>
-      Mybookings
       <MY_bookings_Table data={data}></MY_bookings_Table>
     </div>
   )
 }
+
+
+
+
+
+
+
+
+
+
 
 // import MY_bookings_Table from '@/Components/MY_Bookings/MY_bookings_Table'
 // import { headers } from 'next/headers'

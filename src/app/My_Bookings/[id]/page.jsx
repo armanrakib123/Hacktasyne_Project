@@ -11,7 +11,7 @@ export default async function Update_Booking_Page({ params }) {
   const data = await res.json();
 
   return (
-    <div>
+    <div className='mt-30'>
       <Appointment_Booking_Update data={data}></Appointment_Booking_Update>
     </div>
   )

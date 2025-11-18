@@ -253,8 +253,7 @@ export default function Navbar() {
               </div>
             </li>
           ))}
-          <li><Link href={"/My_Bookings"} className="btn btn-ghost text-base-content/70">Extra</Link></li>
-          <li><Link href={"/More"} className="btn btn-ghost text-base-content/70">More</Link></li>
+          <li><Link href={"/My_Bookings"} className="btn btn-ghost text-base-content/70">My Appointments</Link></li>
         </ul>
       </div>
 
@@ -282,7 +281,113 @@ export default function Navbar() {
 
         <div className="hidden sm:flex gap-5">
 
-          {status == "authenticated" ? (<>
+
+
+
+
+
+
+
+
+          {status === "authenticated" ? (
+            <>
+              <div className="dropdown dropdown-center">
+                <div tabIndex={0} role="button">
+                  <div className="w-10 h-10 rounded-full overflow-hidden bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center text-white font-bold text-lg">
+                    {session?.user?.image ? (
+                      <Image
+                        src={session.user.image}
+                        width={40}
+                        height={40}
+                        alt="User image"
+                        className="rounded-full object-cover"
+                      />
+                    ) : (
+                      <span>
+                        {session?.user?.name
+                          ? session.user.name.charAt(0).toUpperCase()
+                          : "U"}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                {session?.user?.role === "doctor" ? (
+                  <div>
+                    <ul
+                      tabIndex="-1"
+                      className="dropdown-content menu mt-2 bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm"
+                    >
+                      <Link href={"/profile/doctor_profile"}>
+                        <li className="mb-3">
+                          <button className="btn">Doctor Profile</button>
+                        </li>
+                      </Link>
+                      <li>
+                        <button className="btn" onClick={() => signOut()}>
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+
+                  <div>
+                    <ul
+                      tabIndex="-1"
+                      className="dropdown-content menu mt-2 bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm"
+                    >
+                      <Link href={"/profile/patient_profile"}>
+                        <li className="mb-3">
+                          <button className="btn">Patient Profile</button>
+                        </li>
+                      </Link>
+                      <li>
+                        <button className="btn" onClick={() => signOut()}>
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </>
+          ) : (
+            <>
+
+              <div className="dropdown dropdown-center">
+                <div tabIndex={0}>
+                  <Link href="/login" className="btn rounded-4xl btn-ghost">
+                    Log In
+                  </Link>
+                </div>
+                <ul
+                  tabIndex={0}
+                  className="dropdown-content menu bg-base-100 rounded-box z-1 w-20 p-2 shadow-sm"
+                >
+                  <Link  href={"/Login/doctor"} className="pb-4">
+                    <button className="btn btn-sm btn-soft btn-info text-black">
+                      Doctor
+                    </button>
+                  </Link>
+                  <Link href={"/Login/patient"}>
+                    <button className="btn btn-sm btn-soft btn-info text-black">
+                      Patient
+                    </button>
+                  </Link>
+                </ul>
+              </div>
+            </>
+          )}
+
+
+
+
+
+
+
+
+          {/* {status == "authenticated" ? (<>
 
             <div className="dropdown dropdown-center">
               <div tabIndex={0} role="button">
@@ -305,6 +410,17 @@ export default function Navbar() {
                 </div>
               </div>
               <div>
+                
+
+              </div>
+              <div>
+                <ul tabIndex="-1" className="dropdown-content menu mt-2 bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
+                  <Link href={"/profile/patient_profile"}><li className='mb-3'><button className='btn'>View Profile</button></li></Link>
+                  <li><button className='btn' onClick={() => signOut()}>Logout</button></li>
+                </ul>
+                
+              </div>
+              <div>
                 <ul tabIndex="-1" className="dropdown-content menu mt-2 bg-base-100 rounded-box z-1 w-40 p-2 shadow-sm">
                   <Link href={"/profile/patient_profile"}><li className='mb-3'><button className='btn'>View Profile</button></li></Link>
                   <li><button className='btn' onClick={() => signOut()}>Logout</button></li>
@@ -322,7 +438,14 @@ export default function Navbar() {
               <Link href={"/Login/patient"}><button className="btn btn-sm btn-soft btn-info text-black">Patient</button></Link>
 
             </ul>
-          </div></>)}
+          </div></>)} */}
+
+
+
+
+
+
+
 
           <Link href="/register" className="btn text-[15px] font-bold rounded-4xl px-8 bg-gradient-to-br from-green-300 to-blue-600 hover:bg-gradient-to-bl">Get Started</Link>
         </div>

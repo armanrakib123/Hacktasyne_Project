@@ -58,16 +58,16 @@ const Appoint_Booking_Form = ({ data }) => {
     };
 
     return (
-        <div className="my-12">
+        <div className="my-10">
             <div className="w-11/12 mx-auto">
                 <h2 className="text-center text-3xl mb-4">
-                    Appointment : {data?.title} {data.firstName} {data.lastName}
+                    Appointment Book : {data?.title} Name
                 </h2>
                 
                 <form onSubmit={handleBookService}>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 ml-30">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Name</span>
                             </label>
                             <input
@@ -80,7 +80,7 @@ const Appoint_Booking_Form = ({ data }) => {
                         </div>
 
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Email</span>
                             </label>
                             <input
@@ -93,7 +93,7 @@ const Appoint_Booking_Form = ({ data }) => {
                             />
                         </div>
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Due amount</span>
                             </label>
                             <input
@@ -105,13 +105,13 @@ const Appoint_Booking_Form = ({ data }) => {
                             />
                         </div>
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Date</span>
                             </label>
                             <input type="date" name="date" className="input input-bordered" />
                         </div>
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Phone</span>
                             </label>
                             <input
@@ -122,7 +122,7 @@ const Appoint_Booking_Form = ({ data }) => {
                             />
                         </div>
                         <div className="form-control">
-                            <label className="label flex">
+                            <label className="label">
                                 <span className="label-text">Present Address</span>
                             </label>
                             <input

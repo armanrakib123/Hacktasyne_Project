@@ -136,33 +136,214 @@
 
 
 
+// import NextAuth from "next-auth";
+// import CredentialsProvider from "next-auth/providers/credentials";
+// import GoogleProvider from "next-auth/providers/google";
+
+
+
+// import { sendWelcomeEmail } from "@/lib/sendEmail";
+
+
+// import { cookies } from "next/headers";
+// import dbconnect, { collectionNameObj } from "@/lib/dbconnect";
+// import { loginUser_Doctor } from "../../login_doctor/route";
+// import { loginUser_Patient } from "../../login_patient/route";
+
+// export const authOptions = {
+//   providers: [
+//     CredentialsProvider({
+//       name: "Credentials",
+//       credentials: {
+//         email: { label: "Email", type: "text", placeholder: "Enter Email" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       async authorize(credentials) {
+//         const user = await loginUser_Doctor(credentials);
+//         if (user) return user;
+//         return null;
+//       },
+//     }),
+//     CredentialsProvider({
+//       name: "Credentials",
+//       credentials: {
+//         email: { label: "Email", type: "text", placeholder: "Enter Email" },
+//         password: { label: "Password", type: "password" },
+//       },
+//       async authorize(credentials) {
+//         const user = await loginUser_Patient(credentials);
+//         if (user) return user;
+//         return null;
+//       },
+//     }),
+
+//     GoogleProvider({
+//       clientId: process.env.GOOGLE_CLIENT_ID,
+//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+//     }),
+//   ],
+
+//   secret: process.env.NEXTAUTH_SECRET,
+//   pages: {
+//     signIn: "/login",
+//   },
+
+//   callbacks: {
+ 
+
+//     async signIn({ user, account, profile }) {
+//       try {
+     
+//         if (account?.provider === "google") {
+      
+//           const cookieStore = cookies();
+//           const roleCookie = cookieStore.get("vd_role")?.value;
+       
+//           const providerAccountId = account.providerAccountId || null;
+//           const email = user?.email || null;
+//           const name = user?.name || "";
+//           const image = user?.image || "";
+
+         
+//           const chooseCollection = (role) =>
+//             role === "doctor"
+//               ? dbconnect(collectionNameObj.VD_Doctor_Auth)
+//               : dbconnect(collectionNameObj.VD_Patient_Auth);
+
+     
+//           let targetRole = null;
+//           if (roleCookie === "doctor" || roleCookie === "patient") {
+//             targetRole = roleCookie;
+//           }
+
+    
+//           if (!targetRole) {
+
+//             if (providerAccountId) {
+//               const docCol = chooseCollection("doctor");
+//               const foundDoc = await docCol.findOne({ providerAccountId });
+//               if (foundDoc) targetRole = "doctor";
+//             }
+//             if (!targetRole && email) {
+//               const docCol = chooseCollection("doctor");
+//               const foundByEmail = await docCol.findOne({ email });
+//               if (foundByEmail) targetRole = "doctor";
+//             }
+
+          
+//             if (!targetRole && providerAccountId) {
+//               const patCol = chooseCollection("patient");
+//               const foundPat = await patCol.findOne({ providerAccountId });
+//               if (foundPat) targetRole = "patient";
+//             }
+//             if (!targetRole && email) {
+//               const patCol = chooseCollection("patient");
+//               const foundByEmail = await patCol.findOne({ email });
+//               if (foundByEmail) targetRole = "patient";
+//             }
+//           }
+
+      
+//           if (!targetRole) targetRole = "patient";
+
+//           const userCollection = chooseCollection(targetRole);
+
+    
+//           const lookupQuery = providerAccountId ? { providerAccountId } : { email };
+
+//           const existing = await userCollection.findOne(lookupQuery);
+
+//           if (!existing) {
+//             const payload = {
+//               provider: "google",
+//               providerAccountId,
+//               email,
+//               name,
+//               image,
+//               role: targetRole,
+//               createdAt: new Date(),
+//             };
+//             await userCollection.insertOne(payload);
+//             try {
+//               await sendWelcomeEmail(email, name || "User");
+//             } catch (e) {
+//               console.error("Email send failed:", e);
+//             }
+//             console.log("Inserted user into", targetRole, "collection for", email);
+//           } else {
+//             await userCollection.updateOne(
+//               lookupQuery,
+//               { $set: { name: name || existing.name, image: image || existing.image, lastLoginAt: new Date() } }
+//             );
+//             console.log("Updated user in", targetRole, "collection for", email);
+//           }
+//         }
+//       } catch (err) {
+//         console.error("signIn callback error:", err);
+  
+//       }
+//       return true;
+//     },
+//   },
+// };
+
+// const handler = NextAuth(authOptions);
+// export { handler as GET, handler as POST };
+
+
+
+
+
+
+
+
+
+
+
+
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-import { loginUser } from "../../login_doctor/route"; 
-
-import { sendWelcomeEmail } from "@/lib/sendEmail";
-
-
 import { cookies } from "next/headers";
 import dbconnect, { collectionNameObj } from "@/lib/dbconnect";
+import { loginUser_Doctor } from "../../login_doctor/route";
+import { loginUser_Patient } from "../../login_patient/route";
+import { sendWelcomeEmail } from "@/lib/sendEmail";
 
 export const authOptions = {
   providers: [
+    
     CredentialsProvider({
-      name: "Credentials",
+      id: "doctor-login",
+      name: "Doctor Login",
       credentials: {
-        email: { label: "Email", type: "text", placeholder: "Enter Email" },
+        email: { label: "Email", type: "text" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        const user = await loginUser(credentials);
-        if (user) return user;
+        const user = await loginUser_Doctor(credentials);
+        if (user) return { ...user, role: "doctor" };
         return null;
       },
     }),
 
+    
+    CredentialsProvider({
+      id: "patient-login",
+      name: "Patient Login",
+      credentials: {
+        email: { label: "Email", type: "text" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        const user = await loginUser_Patient(credentials);
+        if (user) return { ...user, role: "patient" };
+        return null;
+      },
+    }),
+
+    
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
@@ -170,104 +351,78 @@ export const authOptions = {
   ],
 
   secret: process.env.NEXTAUTH_SECRET,
-  pages: {
-    signIn: "/login",
-  },
+  pages: { signIn: "/login" },
+
 
   callbacks: {
- 
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.role = user.role || token.role;
+      }
 
-    async signIn({ user, account, profile }) {
+   
+      if (account?.provider === "google") {
+        const cookieStore = cookies();
+        let roleCookie = cookieStore.get("vd_role")?.value;
+        let targetRole = roleCookie === "doctor" ? "doctor" : "patient";
+        token.role = targetRole;
+      }
+
+      return token;
+    },
+
+    async session({ session, token }) {
+      session.user.role = token.role || "patient";
+      return session;
+    },
+
+    async signIn({ user, account }) {
       try {
-     
         if (account?.provider === "google") {
-      
-          const cookieStore = cookies();
-          const roleCookie = cookieStore.get("vd_role")?.value;
-       
-          const providerAccountId = account.providerAccountId || null;
-          const email = user?.email || null;
-          const name = user?.name || "";
-          const image = user?.image || "";
+          const email = user.email;
+          const name = user.name || "User";
+          const image = user.image || "";
 
-         
-          const chooseCollection = (role) =>
+          const cookieStore = cookies();
+          let roleCookie = cookieStore.get("vd_role")?.value;
+          let role = roleCookie === "doctor" ? "doctor" : "patient";
+
+          const getCollection = (role) =>
             role === "doctor"
               ? dbconnect(collectionNameObj.VD_Doctor_Auth)
               : dbconnect(collectionNameObj.VD_Patient_Auth);
 
-     
-          let targetRole = null;
-          if (roleCookie === "doctor" || roleCookie === "patient") {
-            targetRole = roleCookie;
-          }
+          const col = getCollection(role);
 
-    
-          if (!targetRole) {
-
-            if (providerAccountId) {
-              const docCol = chooseCollection("doctor");
-              const foundDoc = await docCol.findOne({ providerAccountId });
-              if (foundDoc) targetRole = "doctor";
-            }
-            if (!targetRole && email) {
-              const docCol = chooseCollection("doctor");
-              const foundByEmail = await docCol.findOne({ email });
-              if (foundByEmail) targetRole = "doctor";
-            }
-
-          
-            if (!targetRole && providerAccountId) {
-              const patCol = chooseCollection("patient");
-              const foundPat = await patCol.findOne({ providerAccountId });
-              if (foundPat) targetRole = "patient";
-            }
-            if (!targetRole && email) {
-              const patCol = chooseCollection("patient");
-              const foundByEmail = await patCol.findOne({ email });
-              if (foundByEmail) targetRole = "patient";
-            }
-          }
-
-      
-          if (!targetRole) targetRole = "patient";
-
-          const userCollection = chooseCollection(targetRole);
-
-    
-          const lookupQuery = providerAccountId ? { providerAccountId } : { email };
-
-          const existing = await userCollection.findOne(lookupQuery);
+          const existing = await col.findOne({ email });
 
           if (!existing) {
-            const payload = {
-              provider: "google",
-              providerAccountId,
+            await col.insertOne({
               email,
               name,
               image,
-              role: targetRole,
+              provider: "google",
+              role,
               createdAt: new Date(),
-            };
-            await userCollection.insertOne(payload);
+            });
+
+
             try {
-              await sendWelcomeEmail(email, name || "User");
+              await sendWelcomeEmail(email, name);
             } catch (e) {
-              console.error("Email send failed:", e);
+              console.log("Email send error", e);
             }
-            console.log("Inserted user into", targetRole, "collection for", email);
           } else {
-            await userCollection.updateOne(
-              lookupQuery,
-              { $set: { name: name || existing.name, image: image || existing.image, lastLoginAt: new Date() } }
+            await col.updateOne(
+              { email },
+              { $set: { name, image, lastLoginAt: new Date() } }
             );
-            console.log("Updated user in", targetRole, "collection for", email);
           }
         }
       } catch (err) {
-        console.error("signIn callback error:", err);
-  
+        console.error("Google signIn error: ", err);
       }
+
       return true;
     },
   },
@@ -275,6 +430,3 @@ export const authOptions = {
 
 const handler = NextAuth(authOptions);
 export { handler as GET, handler as POST };
-
-
-

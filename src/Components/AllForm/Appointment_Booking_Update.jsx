@@ -62,7 +62,7 @@ const Appointment_Booking_Update = ({ data }) => {
         <div className="my-10">
             <div className="w-11/12 mx-auto">
                 <h2 className="text-center text-3xl mb-4">
-                    Appointment Book : {data?.title} Name
+                    Appointment Book : {data?.title};
                 </h2>
                 <form onSubmit={handleBookService}>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -143,7 +143,7 @@ const Appointment_Booking_Update = ({ data }) => {
                         <input
                             className="btn btn-primary btn-block"
                             type="submit"
-                            value="Order Confirm"
+                            value="Confirm Appoinment"
                         />
                     </div>
                 </form>

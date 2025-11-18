@@ -12,11 +12,10 @@ const MY_bookings_Table = ({ data }) => {
         <table className="w-full table table-zebra">
           <thead className="border">
             <tr>
-              <th>Service Image</th>
-              <th>Service Name</th>
-              <th>Service Name</th>
-              <th>Service Date</th>
-              <th>Service Price</th>
+              <th>Doctor Image</th>
+              <th>Doctor Name</th>
+              <th>Appoinment Date</th>
+              <th>Appoinment Price</th>
               <th>Phone</th>
               <th>Address</th>
               <th> </th>
@@ -36,7 +35,6 @@ const MY_bookings_Table = ({ data }) => {
                     />
                   </td>
                   <td>{item.service_name}{item.service_firstName}</td>
-                  <td>{item.service_firstName}</td>
                   <td>{item.date}</td>
                   <td>{item.service_price}</td>
                   <td>{item.phone}</td>

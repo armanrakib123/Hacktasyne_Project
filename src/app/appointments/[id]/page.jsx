@@ -6,7 +6,7 @@ export default async function AppointmentPage({ params }) {
   const data = await res.json();
 
   return (
-    <div className='mt-32'>
+    <div className='mt-28'>
       <Appoint_Booking_Form data={data}></Appoint_Booking_Form>
     </div>
   )

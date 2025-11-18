@@ -39,9 +39,9 @@ export async function POST(req) {
             role: "patient",
             createdAt: new Date()
         };
-        const result = await userCollection.insertOne({
-            ...payload, doc
-        });
+        const result = await userCollection.insertOne(
+             doc
+        );
 
         await sendWelcomeEmail(email, name);
 
